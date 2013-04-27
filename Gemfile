@@ -19,6 +19,7 @@ group :development do
   gem "guard-sass",         require: false
   gem "guard-coffeescript", require: false
   gem "guard-livereload",   require: false
+  gem "guard-relaunch",   require: false, git: "git@github.com:makevoid/guard-relaunch.git"
   # gem "growl"
 end
 

@@ -1,3 +1,10 @@
+GIT
+  remote: git@github.com:makevoid/guard-relaunch.git
+  revision: 7287c5649bde0ef3bb825a4f2d510457c2ed5acb
+  specs:
+    guard-relaunch (0.0.1)
+      guard (>= 1.8.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -27,10 +34,10 @@ GEM
     guard-coffeescript (1.3.0)
       coffee-script (>= 2.2.0)
       guard (>= 1.1.0)
-    guard-livereload (1.3.0)
-      em-websocket (>= 0.2.0)
-      guard (>= 1.5.0)
-      multi_json (~> 1.0)
+    guard-livereload (1.4.0)
+      em-websocket (>= 0.5.0)
+      guard (>= 1.8.0)
+      multi_json (~> 1.7)
     guard-sass (1.0.6)
       guard (>= 1.1.0)
       sass (>= 3.1)
@@ -77,6 +84,7 @@ DEPENDENCIES
   guard
   guard-coffeescript
   guard-livereload
+  guard-relaunch!
   guard-sass
   haml
   json

@@ -4,12 +4,13 @@
   %head
     %title= TITLE
     %link{ rel: "stylesheet", href: "/css/main.css" }
-    = partial :metas
-
+    = partial :metas, metas
   %body
     #container
       %header
-        %h1= TITLE
+        %h1
+          %a{ href: "/" }= TITLE
       %nav
+        %a 
       %section.content= yield
     %script{ type: "text/javascript", src: "/js/app.js" }

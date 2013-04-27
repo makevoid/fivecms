@@ -16,3 +16,6 @@ env = ENV["RACK_ENV"] || "development"
 # DataMapper.setup :default, "mysql://localhost/textilecms_#{env}"
 require_all "#{path}/models"
 # DataMapper.finalize
+
+
+require_all "#{path}/lib"
