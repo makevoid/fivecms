@@ -1,0 +1,6 @@
+%h1= page.name
+
+.contents
+  - page.contents.each do |content|
+    %p= content.type
+    %article= content.cont

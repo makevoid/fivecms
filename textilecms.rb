@@ -32,8 +32,27 @@ class Textilecms < Sinatra::Base
 
   class Page
 
+    DEFAULT_TYPE = "text"
+
+
+    # methods
+
+    def name_url
+      # TODO: urlize
+      name.gsub(/\s/, "_")
+    end
+
+    def url
+      "/pages/#{name_url}" # can be abbreviated to /p/, but it's a needed namespace so you can attach other services to other urls
+    end
+
+    # content loading
+
     def self.create_accessors(hash)
       attr_accessor *hash.keys
+    end
+    def self.create_accessor(name)
+      attr_accessor name
     end
 
     def self.load(hash)
@@ -56,9 +75,18 @@ class Textilecms < Sinatra::Base
 
     private
 
-    def load_contents
+    def load_contents(hash)
+      hash.map do |key, val|
+        # self.send "#{key}=", val
+        instance_variable_set "@#{key}", val
+      end
 
+      val = hash[:type] || DEFAULT_TYPE
+      Page.create_accessor :type
+      instance_variable_set "@type", val
     end
+
+
 
   end
 
@@ -68,7 +96,7 @@ class Textilecms < Sinatra::Base
     def self.first
       pages = [
         {
-          name: "home",
+          name: "Home",
           contents: [
             {
               type: "text",
@@ -81,7 +109,7 @@ class Textilecms < Sinatra::Base
           ]
         },
         {
-          name: "antani",
+          name: "Antani",
           contents: [
             {
               cont: "antani page!",
@@ -89,7 +117,7 @@ class Textilecms < Sinatra::Base
           ]
         },
         {
-          name: "contacts",
+          name: "Contacts",
           contents: [
             {
               cont: "Contact me at: email@example.com",
@@ -120,10 +148,31 @@ class Textilecms < Sinatra::Base
     Site.first
   end
 
+  def self.site
+    Site.first
+  end
+
+  def self.create_routes(site)
+
+    site.pages.each do |page|
+      get page.url do
+        @@current_page = page
+        # initialize instance variable(s)
+        haml page.type.to_sym
+      end
+    end
+
+  end
+
+  create_routes site
 
   helpers do
     def metas
       site
+    end
+
+    def page
+      @@current_page
     end
   end
 
