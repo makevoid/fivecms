@@ -25,18 +25,93 @@ class Textilecms < Sinatra::Base
 
   #
 
+  class Content
+    # attr :type
+    # attr :cont
+  end
+
+  class Page
+
+    def self.create_accessors(hash)
+      attr_accessor *hash.keys
+    end
+
+    def self.load(hash)
+      page = Page.new
+      page.load hash
+      page.classify_contents
+      page
+    end
+
+    def load(hash)
+      Page.create_accessors hash
+      load_contents hash
+    end
+
+    def classify_contents
+      # default type: text
+
+      #...
+    end
+
+    private
+
+    def load_contents
+
+    end
+
+  end
+
   class Site
     extend Mhash
+
     def self.first
+      pages = [
+        {
+          name: "home",
+          contents: [
+            {
+              type: "text",
+              cont: "Welcome to my site!",
+            },
+            {
+              type: "image",
+              cont: "<binary_image_file>", # TODO: File.read(image_file)
+            },
+          ]
+        },
+        {
+          name: "antani",
+          contents: [
+            {
+              cont: "antani page!",
+            },
+          ]
+        },
+        {
+          name: "contacts",
+          contents: [
+            {
+              cont: "Contact me at: email@example.com",
+            },
+          ]
+        },
+      ]
+
+      # pages = pages.map{ |page| to_mhash page }
+      pages = pages.map{ |page| Page.load(page) }
+
+      nav = pages.map{ |page| page.name }
+
       to_mhash({
         name: "makevoid's portfolio",
         domain: "makevoid.com",
-        nav: ["home", "antani", "contacts"]
+        nav: nav,
+        pages: pages,
         # pages
         # subpages
         # photo
         # videos
-
       })
     end
   end
