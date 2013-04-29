@@ -31,3 +31,7 @@ group :test do
 end
 
 gem "voidtools"
+
+# gem "thin"
+
+gem "blizz", git: "git@github.com:makevoid/blizz.git"

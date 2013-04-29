@@ -1,12 +1,12 @@
 !!! 5
 %html
-  - TITLE = "Textilecms"
+  - TITLE = "5CMS"
   %head
     %title= TITLE
     %link{ rel: "stylesheet", href: "/css/main.css" }
     = partial :metas, metas
   %body
-    #container
+    .container
       %header
         %h1
           %a{ href: "/" }= TITLE
@@ -14,4 +14,19 @@
         - site.pages.each do |page|
           %a{ href: page.url }= page.name
       %section.content= yield
+      
+      :plain
+        <script type="text/x-handlebars">
+          <h1>deh</h1>
+
+          {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="index">
+          {{model.nome}} ---- eta {{model.eta}}
+        </script>
+        
+    %script{ type: "text/javascript", src: "/js/vendor/jquery.js" }
+    %script{ type: "text/javascript", src: "/js/vendor/handlebars.js" }
+    %script{ type: "text/javascript", src: "/js/vendor/ember.js" }
     %script{ type: "text/javascript", src: "/js/app.js" }

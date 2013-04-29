@@ -1,4 +1,10 @@
 GIT
+  remote: git@github.com:makevoid/blizz.git
+  revision: c84560b4fedd8607cdab5db7950992958deb5c8c
+  specs:
+    blizz (0.1)
+
+GIT
   remote: git@github.com:makevoid/guard-relaunch.git
   revision: 7287c5649bde0ef3bb825a4f2d510457c2ed5acb
   specs:
@@ -80,6 +86,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  blizz!
   foreman
   guard
   guard-coffeescript

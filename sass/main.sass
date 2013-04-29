@@ -1,3 +1,10 @@
+@import 'vendor/bourbon/bourbon'
+
+// mixins
+
+=centered
+  margin: 0 auto
+
 // reset
 
 a
@@ -6,11 +13,42 @@ a
 *
   box-sizing: border-box
 
+body
+  margin: 0
+  padding: 0
+  font-size: 110%
+
 // colors
 
+$main: #AFA // green
+// $main: #F92 // orange
+$mid:  shade($main, 30%)
+$dark: shade($main, 50%)
+$link: $mid
+
 a
-  color: #0CB31A
+  color: $link
+  &:hover
+    color: $dark
 
+nav a
+  font-weight: bold
 
-body
-  background: #EEE
+// layout
+
+html, body
+  +linear-gradient(#FFF, $mid)
+  height: 100%
+
+body > .container
+  width: 90%
+  +centered
+
+// fonts
+
+h1
+  font-family: Impact, Charcoal, sans-serif
+
+// nav
+
+nav a

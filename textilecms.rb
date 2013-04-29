@@ -1,6 +1,7 @@
 path = File.expand_path '../', __FILE__
 
-require "#{path}/config/env.rb"
+require "#{path}/config/env"
+require "#{path}/models/models"
 
 class Textilecms < Sinatra::Base
   include Voidtools::Sinatra::ViewHelpers
@@ -30,65 +31,6 @@ class Textilecms < Sinatra::Base
     # attr :cont
   end
 
-  class Page
-
-    DEFAULT_TYPE = "text"
-
-
-    # methods
-
-    def name_url
-      # TODO: urlize
-      name.gsub(/\s/, "_")
-    end
-
-    def url
-      "/pages/#{name_url}" # can be abbreviated to /p/, but it's a needed namespace so you can attach other services to other urls
-    end
-
-    # content loading
-
-    def self.create_accessors(hash)
-      attr_accessor *hash.keys
-    end
-    def self.create_accessor(name)
-      attr_accessor name
-    end
-
-    def self.load(hash)
-      page = Page.new
-      page.load hash
-      page.classify_contents
-      page
-    end
-
-    def load(hash)
-      Page.create_accessors hash
-      load_contents hash
-    end
-
-    def classify_contents
-      # default type: text
-
-      #...
-    end
-
-    private
-
-    def load_contents(hash)
-      hash.map do |key, val|
-        # self.send "#{key}=", val
-        instance_variable_set "@#{key}", val
-      end
-
-      val = hash[:type] || DEFAULT_TYPE
-      Page.create_accessor :type
-      instance_variable_set "@type", val
-    end
-
-
-
-  end
 
   class Site
     extend Mhash
@@ -97,29 +39,34 @@ class Textilecms < Sinatra::Base
       pages = [
         {
           name: "Home",
+          template: "default",
           contents: [
             {
-              type: "text",
+              type: "Text",
               cont: "Welcome to my site!",
             },
             {
-              type: "image",
+              type: "Image",
               cont: "<binary_image_file>", # TODO: File.read(image_file)
             },
           ]
         },
         {
           name: "Antani",
+          template: "default",
           contents: [
             {
+              type: "Text",
               cont: "antani page!",
             },
           ]
         },
         {
           name: "Contacts",
+          template: "contacts",
           contents: [
             {
+              type: "Text",
               cont: "Contact me at: email@example.com",
             },
           ]
@@ -127,7 +74,7 @@ class Textilecms < Sinatra::Base
       ]
 
       # pages = pages.map{ |page| to_mhash page }
-      pages = pages.map{ |page| Page.load(page) }
+      pages = pages.map{ |page| Blizz.load Page, page }
 
       nav = pages.map{ |page| page.name }
 
@@ -158,7 +105,7 @@ class Textilecms < Sinatra::Base
       get page.url do
         @@current_page = page
         # initialize instance variable(s)
-        haml page.type.to_sym
+        haml "templates/#{page.template}".to_sym
       end
     end
 

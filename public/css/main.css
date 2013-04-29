@@ -4,8 +4,29 @@ a {
 * {
   box-sizing: border-box; }
 
-a {
-  color: #0cb31a; }
-
 body {
-  background: #eeeeee; }
+  margin: 0;
+  padding: 0;
+  font-size: 110%; }
+
+a {
+  color: #76b276; }
+  a:hover {
+    color: #557f55; }
+
+nav a {
+  font-weight: bold; }
+
+html, body {
+  background-color: white;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #76b276));
+  background-image: -webkit-linear-gradient(white, #76b276);
+  background-image: linear-gradient(white, #76b276);
+  height: 100%; }
+
+body > .container {
+  width: 90%;
+  margin: 0 auto; }
+
+h1 {
+  font-family: Impact, Charcoal, sans-serif; }
