@@ -16,6 +16,21 @@ class Page
     "/pages/#{name_url}" # can be abbreviated to /p/, but it's a needed namespace so you can attach other services to other urls
   end
 
+  def to_json(generator)
+    contents = self.contents.map do |content|
+      {
+        type: content.type,
+        cont: content.type,
+      }
+    end
+
+    {
+      name:     self.name,
+      name_url: self.name_url,
+      contents: contents,
+    }.to_json generator
+  end
+
 end
 
 class Text

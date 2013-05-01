@@ -1,0 +1,8 @@
+<h1>{{page.name}}</h1>
+
+<div class="contents">
+  {{#each content in page.contents}}
+    <p>{{content.type}}
+    <article>{{content.cont}}</article>
+  {{/each}}
+</div>

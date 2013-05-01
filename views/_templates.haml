@@ -1,0 +1,8 @@
+- templates_path = "#{PATH}/views/templates"
+- templates = Dir.glob("#{templates_path}/*.handlebars")
+- templates.each do |template|
+  - template = File.basename template, ".*"
+  - template_name = template.split("_").join("/")
+  %script{ type: "text/x-handlebars", :"data-template-name" => template_name }
+    :plain
+      #{File.read "#{templates_path}/#{template}.handlebars"}

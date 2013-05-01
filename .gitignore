@@ -1,3 +1,24 @@
+<<<<<<< HEAD
 .sass-cache
 *.sql
 *.sqlite
+=======
+*.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+>>>>>>> 8afa5a17ae77b506e16bb1697d266b5b440aa8ea

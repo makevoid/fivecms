@@ -1,4 +1,6 @@
 path = File.expand_path '../../', __FILE__
+PATH = path
+
 APP = "textilecms"
 
 require "bundler/setup"
@@ -12,10 +14,11 @@ module Utils
 end
 include Utils
 
+require_all "#{path}/lib"
+
 env = ENV["RACK_ENV"] || "development"
 # DataMapper.setup :default, "mysql://localhost/textilecms_#{env}"
 require_all "#{path}/models"
 # DataMapper.finalize
 
 
-require_all "#{path}/lib"
