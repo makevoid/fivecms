@@ -1,53 +1,61 @@
-App = Ember.Application.create({
-  LOG_TRANSITIONS: true
-})
-
-
-App.Router.map ->
-  this.route "pages", path: "/pages/antani"
-
-site = Em.Object.create
-pages = Em.A()
-
 $.getJSON "/site.json", (site_data) ->
+  main site_data
+
+load_object = (object) ->
+  page = Em.Object.create({})
+  for key in _(object).keys()
+    page.set key, object[key]
+  page
+
+main = (site_data) ->
+  App = Ember.Application.create({
+    LOG_TRANSITIONS: true
+  })
+
+  App.Router.reopen
+    location: 'history'
+
+  App.Router.map ->
+    # this.route "pages", path: "/pages"
+    this.route "page", path: "/pages/:page_id", ->
+
+    # this.resource "pages"#, ->
+
 
   site = Em.Object.create
-javascript:void(0)    name:   site_data.name
-    domain: site_data.domain
-    nav:    site_data.nav
+  pages = Em.A()
 
   for page in site_data.pages
-    page = Em.Object.create
-      name: page.name
-
+    page = load_object page
     pages.pushObject page
 
+  site = Em.Object.create
+    name:   site_data.name
+    domain: site_data.domain
+    nav:    site_data.nav
+    pages:  pages
 
-App.Store = DS.Store.extend
-  revision: 11,
-  adapter: 'DS.FixtureAdapter'
+  # routes
 
+  App.IndexRoute = Em.Route.extend
+    model: ->
+      site
 
-App.IndexRoute = Em.Route.extend
-  # setupController: (controller, song) ->
-  #   controller.set 'content', "aaa"
-  model: ->
-    site
+  App.PageRoute = Em.Route.extend
+    model: ->
+      site
 
-Sait = Em.Object.create
-  name: "asd"
+  # views
 
-App.sait = Em.Object.create
-  name: "asd"
+  App.IndexView = Em.View.extend
+    layoutName: 'page-layout'
 
-App.ApplicationController = Ember.Controller.extend
-  asd: "asd"
-  # asdBinding: "App.sait.name"
+  App.PageView = Em.View.extend
+    layoutName: 'page-layout'
+    templateName: 'index'
 
-Sait.set("name", "asdasdasd")
-
-App.ApplicationView = Em.View.extend
-  classNames: ["container"]
+  App.ApplicationView = Em.View.extend
+    classNames: ["container"]
 
 
 # App.IndexView = Em.View.extend

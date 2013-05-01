@@ -26,6 +26,7 @@ class Page
 
     {
       name:     self.name,
+      url:      self.url,
       name_url: self.name_url,
       contents: contents,
     }.to_json generator

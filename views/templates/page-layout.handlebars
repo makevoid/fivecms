@@ -1,0 +1,13 @@
+<header>
+  <h1>{{name}}</h1>
+</header>
+
+<nav>
+  {{#each page in pages }}
+    <a {{bindAttr href="page.url"}}>{{page.name}}</a>
+  {{/each}}
+</nav>
+
+<section class="content">
+  {{yield}}
+</section>
