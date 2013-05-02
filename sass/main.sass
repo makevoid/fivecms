@@ -52,3 +52,20 @@ h1
 // nav
 
 nav a
+
+// 5cms icon
+
+.fivecms
+  $bg: #333
+  $color: #DDD
+  display: inline-block
+  position: absolute
+  right: 20px
+  top: 0
+  padding: 3px 8px 5px
+  color: $color
+  background: $bg
+  +border-bottom-radius(5px)
+  &:hover
+    background: $bg - #111
+    color:  $color + #111

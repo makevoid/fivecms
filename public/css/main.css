@@ -30,3 +30,17 @@ body > .container {
 
 h1 {
   font-family: Impact, Charcoal, sans-serif; }
+
+.fivecms {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  padding: 3px 8px 5px;
+  color: #dddddd;
+  background: #333333;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
+  .fivecms:hover {
+    background: #222222;
+    color: #eeeeee; }
