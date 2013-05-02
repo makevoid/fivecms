@@ -12,6 +12,10 @@ main = (site_data) ->
 
   App.ContsController = Ember.ArrayController.extend({})
 
+  App.Content = Ember.Object.extend
+    edit: ->
+      this.set "isEditable", true
+
   array = load_site site_data
 
   site = App.Site.create();
@@ -32,7 +36,7 @@ main = (site_data) ->
 
   current_contents = []
   for content in current_page.contents
-    current_contents.pushObject Em.Object.create content
+    current_contents.pushObject App.Content.create content
 
 
   # router
@@ -58,8 +62,6 @@ main = (site_data) ->
   App.PageController = Em.ObjectController.extend
     page: current_page
     conts: current_contents
-    edit: ->
-
     add: ->
       #controller.get('conts').get('firstObject').set("cont", "aaa")
       this.get('conts').pushObject({ cont: "change me..." })
@@ -101,6 +103,10 @@ load_site = (site_data) ->
   pages = []
 
   for page in site_data.pages
+    for content in page.contents
+      string = new Handlebars.SafeString(textile content.cont)
+      content.cont_string = string
+
     page = load_object page
     pages.pushObject page
 
@@ -113,5 +119,6 @@ load_site = (site_data) ->
   [site, pages]
 
 
+# doesn't works
 Ember.Handlebars.helper 'textile', (value) ->
   new Handlebars.SafeString(textile value)

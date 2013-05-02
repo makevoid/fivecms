@@ -9,6 +9,11 @@
     });
     App.Site = Ember.Object.extend({});
     App.ContsController = Ember.ArrayController.extend({});
+    App.Content = Ember.Object.extend({
+      edit: function() {
+        return this.set("isEditable", true);
+      }
+    });
     array = load_site(site_data);
     site = App.Site.create();
     site.setProperties(array[0]);
@@ -29,7 +34,7 @@
     _ref = current_page.contents;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       content = _ref[_i];
-      current_contents.pushObject(Em.Object.create(content));
+      current_contents.pushObject(App.Content.create(content));
     }
     App.Router.reopen({
       location: 'history'
@@ -52,7 +57,6 @@
     App.PageController = Em.ObjectController.extend({
       page: current_page,
       conts: current_contents,
-      edit: function() {},
       add: function() {
         return this.get('conts').pushObject({
           cont: "change me..."
@@ -91,12 +95,18 @@
   };
 
   load_site = function(site_data) {
-    var page, pages, site, _i, _len, _ref;
+    var content, page, pages, site, string, _i, _j, _len, _len1, _ref, _ref1;
 
     pages = [];
     _ref = site_data.pages;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       page = _ref[_i];
+      _ref1 = page.contents;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        content = _ref1[_j];
+        string = new Handlebars.SafeString(textile(content.cont));
+        content.cont_string = string;
+      }
       page = load_object(page);
       pages.pushObject(page);
     }
