@@ -19,7 +19,7 @@ PAGES = [
     contents: [
       {
         type: "Text",
-        cont: "antani page!",
+        cont: "antani page! \"link test\":#test",
       },
     ]
   },

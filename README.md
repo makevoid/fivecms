@@ -1,4 +1,12 @@
-fivecms
+Fivecms (5CMS)
 =======
 
-fivecms
+
+we love:
+
+  Ember (it's complicated)
+  Textile
+  Mobile friendlyness
+  HTML5
+  SASS (variables power)
+

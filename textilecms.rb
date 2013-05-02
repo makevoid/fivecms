@@ -43,7 +43,7 @@ class Textilecms < Sinatra::Base
       nav = pages.map{ |page| page.name }
 
       to_mhash({
-        name: "makevoid's portfolio",
+        name: "my site",
         domain: "makevoid.com",
         nav: nav,
         pages: pages,

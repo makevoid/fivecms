@@ -1,4 +1,14 @@
-<h2>index</h2>
+<h1>{{page.name}}</h1>
 
-<p>site: {{model.name}}    </p>
-<p>domain: {{model.domain}}</p>
+
+{{#each cont in conts}}
+  <div {{action "edit" target="cont"}} class="cont" {{bindAttr data-type="cont.type"}}>
+    {{#if cont.isEditable}}
+      input
+    {{else}}
+      {{cont.cont}}
+    {{/if}}
+  </div>
+{{/each}}
+
+<a {{action "add"}} href='location.void(0)'>[+ add content]</a>

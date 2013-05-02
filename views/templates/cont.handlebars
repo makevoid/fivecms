@@ -1,0 +1,11 @@
+funge!!!!
+
+{{#each content in controller}}
+  <div class="cont" {{bindAttr data-type="content.type"}}>
+    {{#if content.isEditable}}
+      input
+    {{else}}
+      {{textile content.cont}}
+    {{/if}}
+  </div>
+{{/each}}

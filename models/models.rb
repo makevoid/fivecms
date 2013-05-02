@@ -20,7 +20,7 @@ class Page
     contents = self.contents.map do |content|
       {
         type: content.type,
-        cont: content.type,
+        cont: content.cont,
       }
     end
 

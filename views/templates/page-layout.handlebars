@@ -1,11 +1,12 @@
 <header>
-  <h1><a href="/">{{name}}</a></h1>
+  <h1><a href="/">{{name}}</a> [edit]</h1>
 </header>
 
 <nav>
   {{#each page in pages }}
     <a {{bindAttr href="page.url"}}>{{page.name}}</a>
   {{/each}}
+  [edit]
 </nav>
 
 <section class="content">
