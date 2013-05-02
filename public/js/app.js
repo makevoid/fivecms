@@ -10,8 +10,14 @@
     App.Site = Ember.Object.extend({});
     App.ContsController = Ember.ArrayController.extend({});
     App.Content = Ember.Object.extend({
+      cont_string: Ember.computed(function() {
+        return new Handlebars.SafeString(textile(this.get("cont")));
+      }).property("cont"),
       edit: function() {
         return this.set("isEditable", true);
+      },
+      saved_cont: function() {
+        return this.set("isEditable", false);
       }
     });
     array = load_site(site_data);
@@ -58,9 +64,12 @@
       page: current_page,
       conts: current_contents,
       add: function() {
-        return this.get('conts').pushObject({
-          cont: "change me..."
+        var cont;
+
+        cont = App.Content.create({
+          cont: "edit me..."
         });
+        return this.get('conts').pushObject(cont);
       }
     });
     App.IndexController = App.PageController;
@@ -95,18 +104,12 @@
   };
 
   load_site = function(site_data) {
-    var content, page, pages, site, string, _i, _j, _len, _len1, _ref, _ref1;
+    var page, pages, site, _i, _len, _ref;
 
     pages = [];
     _ref = site_data.pages;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       page = _ref[_i];
-      _ref1 = page.contents;
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        content = _ref1[_j];
-        string = new Handlebars.SafeString(textile(content.cont));
-        content.cont_string = string;
-      }
       page = load_object(page);
       pages.pushObject(page);
     }

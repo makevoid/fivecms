@@ -13,8 +13,16 @@ main = (site_data) ->
   App.ContsController = Ember.ArrayController.extend({})
 
   App.Content = Ember.Object.extend
+
+    cont_string: Ember.computed(->
+      new Handlebars.SafeString textile this.get("cont")
+    ).property("cont")
+
     edit: ->
       this.set "isEditable", true
+    saved_cont: ->
+
+      this.set "isEditable", false
 
   array = load_site site_data
 
@@ -59,18 +67,17 @@ main = (site_data) ->
     model: ->
       site
 
+
+  # controllers
+
   App.PageController = Em.ObjectController.extend
     page: current_page
     conts: current_contents
     add: ->
-      #controller.get('conts').get('firstObject').set("cont", "aaa")
-      this.get('conts').pushObject({ cont: "change me..." })
-      #.set "isEditable", true
-
-
+      cont = App.Content.create { cont: "edit me..." }
+      this.get('conts').pushObject cont
 
   App.IndexController = App.PageController
-
 
 
   # views
@@ -103,10 +110,6 @@ load_site = (site_data) ->
   pages = []
 
   for page in site_data.pages
-    for content in page.contents
-      string = new Handlebars.SafeString(textile content.cont)
-      content.cont_string = string
-
     page = load_object page
     pages.pushObject page
 
