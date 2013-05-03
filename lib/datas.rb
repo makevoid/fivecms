@@ -5,11 +5,15 @@ PAGES = [
     contents: [
       {
         type: "Text",
-        cont: "Welcome to my site!",
+        cont: "Welcome to 5CMS!\n\nClick here to edit the contents!\nEasy, huh?",
+      },
+      {
+        type: "Text",
+        cont: "See \"the Textile guide\":http://redcloth.org/hobix.com/textile/quick.html and discover all what you can do (text formatting, links, images...)",
       },
       {
         type: "Image",
-        cont: "<binary_image_file>", # TODO: File.read(image_file)
+        cont: "!/images/ruby_logo.png!", # TODO: File.read(image_file)
       },
     ]
   },

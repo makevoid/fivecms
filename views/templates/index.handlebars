@@ -3,12 +3,18 @@
 {{#each cont in conts}}
   <div {{action "edit" target="cont"}} class="cont" {{bindAttr data-type="cont.type"}}>
     {{#if cont.isEditable}}
+      <div class="preview">
+        {{cont.cont_string}}
+      </div>
+
       {{textarea value=cont.cont action="saved_cont" target="cont"}}
+      <div class='clear'></div>
       <button {{action "saved_cont" target="cont"}}>save</button>
     {{else}}
       {{cont.cont_string}}
     {{/if}}
   </div>
+  <div class='clear'></div>
 {{/each}}
 
 <a {{action "add"}} href='location.void(0)'>[+ add content]</a>

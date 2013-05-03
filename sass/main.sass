@@ -5,6 +5,14 @@
 =centered
   margin: 0 auto
 
+// utils
+
+.right
+  float: right
+
+.clear
+  clear: both
+
 // reset
 
 a
@@ -17,6 +25,9 @@ body
   margin: 0
   padding: 0
   font-size: 110%
+
+p
+  margin: 0 0 1.2em 0
 
 // colors
 
@@ -69,3 +80,30 @@ nav a
   &:hover
     background: $bg - #111
     color:  $color + #111
+
+.cont
+  img
+    max-width: 100%
+
+  $width: 48%
+  $margin-right: 2%
+  .preview, textarea
+    width: $width
+    height: 200px
+    display: inline-block
+    float: left
+  .preview
+    margin-right: $margin-right
+    background: rgba(240, 240, 240, 0.2)
+    img
+      max-width: 100%
+  button
+    z-index: 3
+    position: relative
+    display: block
+    float: right
+    margin-right: 100% - $width * 2 - $margin-right
+    margin-top: 10px
+
+.container > nav.right
+  margin-top: 20px
