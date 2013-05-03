@@ -1,10 +1,9 @@
 <h1>{{page.name}}</h1>
 
-
 {{#each cont in conts}}
   <div {{action "edit" target="cont"}} class="cont" {{bindAttr data-type="cont.type"}}>
     {{#if cont.isEditable}}
-      {{input type="text" value=cont.cont action="saved_cont" target="cont"}}
+      {{textarea value=cont.cont action="saved_cont" target="cont"}}
       <button {{action "saved_cont" target="cont"}}>save</button>
     {{else}}
       {{cont.cont_string}}

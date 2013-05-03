@@ -17,7 +17,8 @@
         return this.set("isEditable", true);
       },
       saved_cont: function() {
-        return this.set("isEditable", false);
+        this.set("isEditable", false);
+        throw "wtf";
       }
     });
     array = load_site(site_data);
@@ -69,7 +70,8 @@
         cont = App.Content.create({
           cont: "edit me..."
         });
-        return this.get('conts').pushObject(cont);
+        this.get('conts').pushObject(cont);
+        return cont.edit();
       }
     });
     App.IndexController = App.PageController;

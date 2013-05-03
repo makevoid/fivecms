@@ -21,8 +21,9 @@ main = (site_data) ->
     edit: ->
       this.set "isEditable", true
     saved_cont: ->
-
       this.set "isEditable", false
+      throw "wtf"
+      # App.PageView.rerender()
 
   array = load_site site_data
 
@@ -76,6 +77,7 @@ main = (site_data) ->
     add: ->
       cont = App.Content.create { cont: "edit me..." }
       this.get('conts').pushObject cont
+      cont.edit()
 
   App.IndexController = App.PageController
 
