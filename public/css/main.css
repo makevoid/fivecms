@@ -54,6 +54,11 @@ h1 {
     background: #222222;
     color: #eeeeee; }
 
+.cont.is-editable {
+  background: rgba(200, 200, 200, 0.2); }
+  .cont.is-editable:hover {
+    background: rgba(200, 200, 200, 0.35); }
+
 .cont img {
   max-width: 100%; }
 .cont .preview, .cont textarea {
@@ -63,7 +68,7 @@ h1 {
   float: left; }
 .cont .preview {
   margin-right: 2%;
-  background: rgba(240, 240, 240, 0.2); }
+  background: rgba(200, 200, 200, 0.2); }
   .cont .preview img {
     max-width: 100%; }
 .cont button {

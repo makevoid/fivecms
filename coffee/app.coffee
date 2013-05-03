@@ -1,3 +1,13 @@
+
+win = $(window)
+win.on "click", (evt) ->
+  target = $ evt.target
+  has_cont = target.closest(".cont").length
+  if !has_cont
+    console.log "ecchiudi"
+    App.Router.router.currentHandlerInfos[1].handler.controller.add()
+
+
 main = (site_data) ->
 
   # app
@@ -5,6 +15,8 @@ main = (site_data) ->
   App = Ember.Application.create({
     LOG_TRANSITIONS: true
   })
+
+  window.App = App
 
   # models
 
@@ -78,8 +90,13 @@ main = (site_data) ->
       cont = App.Content.create { cont: "edit me..." }
       this.get('conts').pushObject cont
       cont.edit()
+      false
+
+    window_click: (event) ->
+      console.log event
 
   App.IndexController = App.PageController
+
 
 
   # views

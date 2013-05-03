@@ -1,5 +1,18 @@
 (function() {
-  var current_page_name, load_object, load_site, main;
+  var current_page_name, load_object, load_site, main, win;
+
+  win = $(window);
+
+  win.on("click", function(evt) {
+    var has_cont, target;
+
+    target = $(evt.target);
+    has_cont = target.closest(".cont").length;
+    if (!has_cont) {
+      console.log("ecchiudi");
+      return App.Router.router.currentHandlerInfos[1].handler.controller.add();
+    }
+  });
 
   main = function(site_data) {
     var App, array, content, conts_controller, current_contents, current_page, get_current_page, pages, site, _i, _len, _ref;
@@ -7,6 +20,7 @@
     App = Ember.Application.create({
       LOG_TRANSITIONS: true
     });
+    window.App = App;
     App.Site = Ember.Object.extend({});
     App.ContsController = Ember.ArrayController.extend({});
     App.Content = Ember.Object.extend({
@@ -71,7 +85,11 @@
           cont: "edit me..."
         });
         this.get('conts').pushObject(cont);
-        return cont.edit();
+        cont.edit();
+        return false;
+      },
+      window_click: function(event) {
+        return console.log(event);
       }
     });
     App.IndexController = App.PageController;
