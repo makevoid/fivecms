@@ -1,12 +1,23 @@
+State = {}
+State.open = false
+
+close_contents = ->
+  controllers = App.Router.router.currentHandlerInfos
+  controller = _(controllers).find (contr) -> contr.name == "index" || contr.name == "page"
+  conts = controller.handler.controller.get('conts')
+  for cont in conts
+    cont.set "isEditable", false
 
 win = $(window)
 win.on "click", (evt) ->
   target = $ evt.target
-  has_cont = target.closest(".cont").length
+  has_cont = target.parents(".cont").length
+  window.target = target
   if !has_cont
-    console.log "ecchiudi"
-    App.Router.router.currentHandlerInfos[1].handler.controller.add()
+    if State.open
+      close_contents()
 
+    State.open = true
 
 main = (site_data) ->
 
@@ -31,6 +42,9 @@ main = (site_data) ->
     ).property("cont")
 
     edit: ->
+      if State.open
+        close_contents()
+        State.open = false
       this.set "isEditable", true
     saved_cont: ->
       this.set "isEditable", false
@@ -91,9 +105,6 @@ main = (site_data) ->
       this.get('conts').pushObject cont
       cont.edit()
       false
-
-    window_click: (event) ->
-      console.log event
 
   App.IndexController = App.PageController
 

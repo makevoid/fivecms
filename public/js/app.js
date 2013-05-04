@@ -1,5 +1,25 @@
 (function() {
-  var current_page_name, load_object, load_site, main, win;
+  var State, close_contents, current_page_name, load_object, load_site, main, win;
+
+  State = {};
+
+  State.open = false;
+
+  close_contents = function() {
+    var cont, controller, controllers, conts, _i, _len, _results;
+
+    controllers = App.Router.router.currentHandlerInfos;
+    controller = _(controllers).find(function(contr) {
+      return contr.name === "index" || contr.name === "page";
+    });
+    conts = controller.handler.controller.get('conts');
+    _results = [];
+    for (_i = 0, _len = conts.length; _i < _len; _i++) {
+      cont = conts[_i];
+      _results.push(cont.set("isEditable", false));
+    }
+    return _results;
+  };
 
   win = $(window);
 
@@ -7,10 +27,13 @@
     var has_cont, target;
 
     target = $(evt.target);
-    has_cont = target.closest(".cont").length;
+    has_cont = target.parents(".cont").length;
+    window.target = target;
     if (!has_cont) {
-      console.log("ecchiudi");
-      return App.Router.router.currentHandlerInfos[1].handler.controller.add();
+      if (State.open) {
+        close_contents();
+      }
+      return State.open = true;
     }
   });
 
@@ -28,6 +51,10 @@
         return new Handlebars.SafeString(textile(this.get("cont")));
       }).property("cont"),
       edit: function() {
+        if (State.open) {
+          close_contents();
+          State.open = false;
+        }
         return this.set("isEditable", true);
       },
       saved_cont: function() {
@@ -87,9 +114,6 @@
         this.get('conts').pushObject(cont);
         cont.edit();
         return false;
-      },
-      window_click: function(event) {
-        return console.log(event);
       }
     });
     App.IndexController = App.PageController;

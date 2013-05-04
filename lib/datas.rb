@@ -23,7 +23,7 @@ PAGES = [
     contents: [
       {
         type: "Text",
-        cont: "antani page! \"link test\":#test",
+        cont: "antani page! \"link to contacts page\":/contacts",
       },
     ]
   },
