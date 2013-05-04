@@ -3,14 +3,30 @@
 </nav>
 
 <header>
-  <h1><a href="/">{{name}}</a> [edit]</h1>
+  {{#if isEditingSiteName}}
+    {{input value=name type="text" action="site_name_save"}}
+    <button {{action "site_name_save"}}>save</button>
+  {{else}}
+    <h1>
+      <a href="/">{{name}}</a>
+      <button {{action "site_name_edit"}}>edit</button>
+    </h1>
+  {{/if}}
 </header>
 
 <nav>
-  {{#each page in pages }}
-    <a {{bindAttr href="page.url"}}>{{page.name}}</a>
-  {{/each}}
-  [edit]
+  {{#if isEditingNav}}
+    {{#each page in pages }}
+      {{input value=page.name type="text" action="save_page_name"}}
+    {{/each}}
+    <button {{action "site_nav_add"}}>add</button>
+    <button {{action "site_nav_save"}}>save</button>
+  {{else}}
+    {{#each page in pages }}
+      <a {{bindAttr href="page.url"}}>{{page.name}}</a>
+    {{/each}}
+    <button {{action "site_nav_edit"}}>edit</button>
+  {{/if}}
 </nav>
 
 <section class="content">

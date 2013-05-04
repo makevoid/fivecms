@@ -81,3 +81,9 @@ h1 {
 
 .container > nav.right {
   margin-top: 20px; }
+
+.inner_container > header > input, .inner_container > header > button {
+  font-size: 1.4em; }
+.inner_container > header > input {
+  margin: 30px 0 10px;
+  padding: 3px 8px; }

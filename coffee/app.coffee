@@ -1,23 +1,6 @@
 State = {}
 State.open = false
 
-close_contents = ->
-  controllers = App.Router.router.currentHandlerInfos
-  controller = _(controllers).find (contr) -> contr.name == "index" || contr.name == "page"
-  conts = controller.handler.controller.get('conts')
-  for cont in conts
-    cont.set "isEditable", false
-
-win = $(window)
-win.on "click", (evt) ->
-  target = $ evt.target
-  has_cont = target.parents(".cont").length
-  window.target = target
-  if !has_cont
-    if State.open
-      close_contents()
-
-    State.open = true
 
 main = (site_data) ->
 
@@ -31,9 +14,11 @@ main = (site_data) ->
 
   # models
 
-  App.Site = Ember.Object.extend({})
+  App.Site = Ember.Object.extend()
 
-  App.ContsController = Ember.ArrayController.extend({})
+  App.SiteController = Ember.ObjectController.extend()
+
+  App.ContsController = Ember.ArrayController.extend()
 
   App.Content = Ember.Object.extend
 
@@ -53,12 +38,15 @@ main = (site_data) ->
 
   array = load_site site_data
 
-  site = App.Site.create();
+  site = App.Site.create()
   site.setProperties array[0]
   pages = array[1]
 
   conts_controller = App.ContsController.create
     content: pages
+
+  site_controller = App.SiteController.create
+    content: site
 
   # utils
 
@@ -87,12 +75,12 @@ main = (site_data) ->
 
   App.IndexRoute = Em.Route.extend
     model: ->
-      site
+      site_controller.get 'content'
 
   # App.PageRoute = App.IndexRoute
   App.PageRoute = Em.Route.extend
     model: ->
-      site
+      site_controller.get 'content'
 
 
   # controllers
@@ -100,11 +88,28 @@ main = (site_data) ->
   App.PageController = Em.ObjectController.extend
     page: current_page
     conts: current_contents
+    needs: "site"
     add: ->
       cont = App.Content.create { cont: "edit me..." }
       this.get('conts').pushObject cont
       cont.edit()
       false
+    site_name_edit: ->
+      site.set 'isEditingSiteName', true
+    site_name_save: ->
+      site.set 'isEditingSiteName', false
+    site_nav_edit: ->
+      site.set 'isEditingNav', true
+    site_nav_save: ->
+      site.set 'isEditingNav', false
+    site_nav_add: ->
+      pages = site.get "pages"
+      page = Em.Object.create
+        name: "new page..."
+        url: "/temp_url"
+      pages.pushObject page
+
+
 
   App.IndexController = App.PageController
 
@@ -114,10 +119,12 @@ main = (site_data) ->
 
   App.IndexView = Em.View.extend
     layoutName: 'page-layout'
+    classNames: ["inner_container"]
 
   App.PageView = Em.View.extend
     layoutName: 'page-layout'
     templateName: 'index'
+    classNames: ["inner_container"]
 
   App.ApplicationView = Em.View.extend
     classNames: ["container"]
@@ -128,10 +135,29 @@ $.getJSON "/site.json", (site_data) ->
   main site_data
 
 
+close_contents = ->
+  controllers = App.Router.router.currentHandlerInfos
+  controller = _(controllers).find (contr) -> contr.name == "index" || contr.name == "page"
+  conts = controller.handler.controller.get('conts')
+  for cont in conts
+    cont.set "isEditable", false
+
+win = $(window)
+win.on "click", (evt) ->
+  target = $ evt.target
+  has_cont = target.parents(".cont").length
+  window.target = target
+  if !has_cont
+    if State.open
+      close_contents()
+
+    State.open = true
+
+
 current_page_name = location.pathname.split("/")[2]
 
 load_object = (object) ->
-  page = Em.Object.create({})
+  page = Em.Object.create()
   for key in _(object).keys()
     page.set key, object[key]
   page
