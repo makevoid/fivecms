@@ -1,5 +1,6 @@
 guard 'sass', input: 'sass', output: 'public/css'
-guard 'coffeescript', input: 'coffee', output: "public/js"#, bare: true -> dioboia? :)
+guard 'coffeescript', input: 'coffee', output: "public/js", bare: true
+guard 'coffeescript', input: 'spec', output: "spec/js", bare: true
 guard 'livereload' do
   watch(%r{views/.+.(erb|haml|slim|md|markdown|handlebars)})
   watch(%r{views/templates.+.(handlebars)})

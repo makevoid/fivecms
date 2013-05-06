@@ -3,7 +3,7 @@ class Textilecms < Sinatra::Base
     haml :index
   end
 
-  get "/site.json" do
+  get "/sites/1.json" do
     Site.first.to_json
   end
 

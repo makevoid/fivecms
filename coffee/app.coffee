@@ -1,28 +1,40 @@
-State = {}
-State.open = false
+unless $ # testing resets that dont belong here
+  $ = {}
+  $.getJSON = ->
 
+  localStorage = {}
+  window = this
+  location = {}
+  location.pathname = "/"
 
 main = (site_data) ->
 
   # app
 
-  App = Ember.Application.create({
+  App = Em.Application.create({
     LOG_TRANSITIONS: true
   })
 
   window.App = App
 
+  # store
+
+  # App.store = DS.Store.create
+  #   revision: 12,
+  #   adapter: DS.LSAdapter.create()
+
+
   # models
 
-  App.Site = Ember.Object.extend()
+  App.Site = Em.Object.extend()
 
-  App.SiteController = Ember.ObjectController.extend()
+  App.SiteController = Em.ObjectController.extend()
 
-  App.ContsController = Ember.ArrayController.extend()
+  App.ContsController = Em.ArrayController.extend()
 
-  App.Content = Ember.Object.extend
+  App.Content = Em.Object.extend
 
-    cont_string: Ember.computed(->
+    cont_string: Em.computed(->
       new Handlebars.SafeString textile this.get("cont")
     ).property("cont")
 
@@ -48,14 +60,7 @@ main = (site_data) ->
   site_controller = App.SiteController.create
     content: site
 
-  # utils
-
-  get_current_page = ->
-    pag = _(pages).find (page) ->
-      page.name_url == current_page_name
-    pag || _(pages).first()
-
-  current_page = get_current_page()
+  current_page = get_current_page(pages)
 
   current_contents = []
   for content in current_page.contents
@@ -89,6 +94,8 @@ main = (site_data) ->
     page: current_page
     conts: current_contents
     needs: "site"
+    init: ->
+      site.set "name", storage.site_name
     add: ->
       cont = App.Content.create { cont: "edit me..." }
       this.get('conts').pushObject cont
@@ -98,10 +105,12 @@ main = (site_data) ->
       site.set 'isEditingSiteName', true
     site_name_save: ->
       site.set 'isEditingSiteName', false
+      storage.site_name = site.get 'name'
     site_nav_edit: ->
       site.set 'isEditingNav', true
     site_nav_save: ->
       site.set 'isEditingNav', false
+      # storage.site_nav = site.get 'nav?'
     site_nav_add: ->
       pages = site.get "pages"
       page = Em.Object.create
@@ -130,10 +139,29 @@ main = (site_data) ->
     classNames: ["container"]
 
 
+  # non ember events
 
-$.getJSON "/site.json", (site_data) ->
+  bind_contents_close()
+
+
+$.getJSON "/sites/1.json", (site_data) ->
   main site_data
 
+
+State = {}
+State.open = false
+
+storage = localStorage
+window.storage = storage
+# prepare storage
+storage.sites = [] unless storage.sites
+
+
+
+get_current_page = (pages) ->
+  pag = _(pages).find (page) ->
+    page.name_url == current_page_name
+  pag || _(pages).first()
 
 close_contents = ->
   controllers = App.Router.router.currentHandlerInfos
@@ -142,16 +170,17 @@ close_contents = ->
   for cont in conts
     cont.set "isEditable", false
 
-win = $(window)
-win.on "click", (evt) ->
-  target = $ evt.target
-  has_cont = target.parents(".cont").length
-  window.target = target
-  if !has_cont
-    if State.open
-      close_contents()
+bind_contents_close = ->
+  win = $(window)
+  win.on "click", (evt) ->
+    target = $ evt.target
+    has_cont = target.parents(".cont").length
+    window.target = target
+    if !has_cont
+      if State.open
+        close_contents()
 
-    State.open = true
+      State.open = true
 
 
 current_page_name = location.pathname.split("/")[2]
@@ -179,5 +208,5 @@ load_site = (site_data) ->
 
 
 # doesn't works
-Ember.Handlebars.helper 'textile', (value) ->
+Em.Handlebars.helper 'textile', (value) ->
   new Handlebars.SafeString(textile value)
