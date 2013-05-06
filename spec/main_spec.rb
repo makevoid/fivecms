@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe "Main spec" do
   it "GET /" do
-
+    get "/"
+    puts body
   end
 end
 

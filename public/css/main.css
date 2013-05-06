@@ -40,6 +40,9 @@ body > .container {
 h1 {
   font-family: Impact, Charcoal, sans-serif; }
 
+textarea, input, select {
+  font-size: 1em; }
+
 .fivecms {
   display: inline-block;
   position: absolute;

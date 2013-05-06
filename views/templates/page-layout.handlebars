@@ -5,7 +5,7 @@
 <header>
   {{#if isEditingSiteName}}
     {{input value=name type="text" action="site_name_save"}}
-    <button {{action "site_name_save"}}>save</button>
+    <button {{action "site_name_save"}}>done</button>
   {{else}}
     <h1>
       <a href="/">{{name}}</a>
@@ -20,7 +20,7 @@
       {{input value=page.name type="text" action="save_page_name"}}
     {{/each}}
     <button {{action "site_nav_add"}}>add</button>
-    <button {{action "site_nav_save"}}>save</button>
+    <button {{action "site_nav_save"}}>done</button>
   {{else}}
     {{#each page in pages }}
       <a {{bindAttr href="page.url"}}>{{page.name}}</a>
