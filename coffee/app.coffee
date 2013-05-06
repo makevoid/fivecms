@@ -8,6 +8,7 @@ unless $ # testing resets that dont belong here
   location.pathname = "/"
 
 main = (site_data) ->
+  $("body").addClass "editing"
 
   # app
 
@@ -51,6 +52,12 @@ main = (site_data) ->
   array = load_site site_data
 
   site = App.Site.create()
+  # TODO: put contents under site
+  site.addObserver 'name', ->
+    # TODO: serialize (json) and restore site state
+    console.log "name changed "
+
+  window.site = site
   site.setProperties array[0]
   pages = array[1]
 

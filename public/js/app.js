@@ -12,6 +12,7 @@ if (!$) {
 main = function(site_data) {
   var App, array, content, conts_controller, current_contents, current_page, pages, site, site_controller, _i, _len, _ref;
 
+  $("body").addClass("editing");
   App = Em.Application.create({
     LOG_TRANSITIONS: true
   });
@@ -37,6 +38,10 @@ main = function(site_data) {
   });
   array = load_site(site_data);
   site = App.Site.create();
+  site.addObserver('*', function() {
+    return console.log("name changed");
+  });
+  window.site = site;
   site.setProperties(array[0]);
   pages = array[1];
   conts_controller = App.ContsController.create({

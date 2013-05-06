@@ -46,7 +46,6 @@ class Textilecms < Sinatra::Base
         id: 1,
         name: "my site",
         domain: "makevoid.com",
-        nav: nav,
         pages: pages,
         # pages
         # subpages
