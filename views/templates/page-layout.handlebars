@@ -17,7 +17,7 @@
 <nav>
   {{#if isEditingNav}}
     {{#each page in pages }}
-      {{input value=page.name type="text" action="save_page_name"}}
+      {{input value=page.name type="text" action="site_nav_save"}}
     {{/each}}
     <button {{action "site_nav_add"}}>add</button>
     <button {{action "site_nav_save"}}>done</button>

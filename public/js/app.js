@@ -10,7 +10,7 @@ if (!$) {
 }
 
 main = function(site_data) {
-  var App, array, content, conts_controller, current_contents, current_page, pages, site, site_controller, _i, _len, _ref;
+  var App, array, content, conts_controller, current_page, pages, site, site_controller, _i, _len, _ref;
 
   $("body").addClass("editing");
   App = Em.Application.create({
@@ -38,8 +38,8 @@ main = function(site_data) {
   });
   array = load_site(site_data);
   site = App.Site.create();
-  site.addObserver('*', function() {
-    return console.log("name changed");
+  site.addObserver('name', function() {
+    return console.log("name changed ");
   });
   window.site = site;
   site.setProperties(array[0]);
@@ -51,11 +51,11 @@ main = function(site_data) {
     content: site
   });
   current_page = get_current_page(pages);
-  current_contents = [];
+  current_page.contents = [];
   _ref = current_page.contents;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     content = _ref[_i];
-    current_contents.pushObject(App.Content.create(content));
+    current_page.contents.pushObject(App.Content.create(content));
   }
   App.Router.reopen({
     location: 'history'
@@ -77,7 +77,7 @@ main = function(site_data) {
   });
   App.PageController = Em.ObjectController.extend({
     page: current_page,
-    conts: current_contents,
+    conts: current_page.contents,
     needs: "site",
     init: function() {
       return site.set("name", storage.site_name);

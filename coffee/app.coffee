@@ -18,12 +18,6 @@ main = (site_data) ->
 
   window.App = App
 
-  # store
-
-  # App.store = DS.Store.create
-  #   revision: 12,
-  #   adapter: DS.LSAdapter.create()
-
 
   # models
 
@@ -54,6 +48,7 @@ main = (site_data) ->
   site = App.Site.create()
   # TODO: put contents under site
   site.addObserver 'name', ->
+    # console.log JSON.stringify(site)
     # TODO: serialize (json) and restore site state
     console.log "name changed "
 
@@ -67,11 +62,12 @@ main = (site_data) ->
   site_controller = App.SiteController.create
     content: site
 
-  current_page = get_current_page(pages)
+  current_page = get_current_page pages
+  current_page.contents = []
 
-  current_contents = []
   for content in current_page.contents
-    current_contents.pushObject App.Content.create content
+     current_page.contents.pushObject App.Content.create content
+
 
 
   # router
@@ -99,7 +95,7 @@ main = (site_data) ->
 
   App.PageController = Em.ObjectController.extend
     page: current_page
-    conts: current_contents
+    conts: current_page.contents
     needs: "site"
     init: ->
       site.set "name", storage.site_name
